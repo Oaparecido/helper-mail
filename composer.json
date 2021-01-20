@@ -1,0 +1,18 @@
+{
+    "name": "oaparecido/helper-mail",
+    "description": "Helper to help in the build and in the send mails to Transforma Brasil",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Aparecido",
+            "email": "daniel.aparecido4683@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+	"psr-4": {
+		"HelperMail\\": "src/"
+	}
+    }
+}
