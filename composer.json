@@ -19,5 +19,10 @@
     "psr-4": {
       "HelperMail\\": "src/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "HelperMail\\Tests\\": "tests"
+    }
   }
 }
