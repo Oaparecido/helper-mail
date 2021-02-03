@@ -1,18 +1,23 @@
 {
-    "name": "oaparecido/helper-mail",
-    "description": "Helper to help in the build and in the send mails to Transforma Brasil",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Daniel Aparecido",
-            "email": "daniel.aparecido4683@gmail.com"
-        }
-    ],
-    "require": {},
-    "autoload": {
-	"psr-4": {
-		"HelperMail\\": "src/"
-	}
+  "name": "oaparecido/helper-mail",
+  "description": "Helper to help in the build and in the send mails to Transforma Brasil",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daniel Aparecido",
+      "email": "daniel.aparecido4683@gmail.com"
     }
+  ],
+  "require": {
+    "php": ">=7.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "HelperMail\\": "src/"
+    }
+  }
 }
