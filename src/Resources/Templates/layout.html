@@ -1,10 +1,363 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Rubik:300,400,500,700&display=swap");
 
+        /* -------------- RESET AND COMMON PROPERTIES -------------- */
+
+        body,
+        html,
+        h1,
+        p,
+        a,
+        button {
+            margin: 0;
+            padding: 0;
+        }
+
+        h1,
+        p,
+        a,
+        span {
+            font-family: Rubik, Roboto, Arial, sans-serif;
+            font-style: normal;
+            font-weight: 400;
+        }
+
+        /* -------------- ALIAS TO COMMON PROPERTIES -------------- */
+
+        /* ------- COLORS ------- */
+
+        .bgColorBase {
+            background-color: "{{BG_COLOR_BASE}}";
+        }
+
+        .textColorBase {
+            color: "{{TEXT_COLOR_BASE}}";
+        }
+
+        .bgColorPrimary {
+            background-color: "{{BG_COLOR_PRIMARY}}";
+        }
+
+        .textColorPrimary {
+            color: "{{TEXT_COLOR_PRIMARY}}";
+        }
+
+        .bgColorLigth {
+            background-color: "{{BG_COLOR_LIGTH}}";
+        }
+
+        .textColorLigth {
+            color: "{{TEXT_COLOR_LIGTH}}";
+        }
+
+        .bgColorLightness {
+            background-color: "{{BG_COLOR_LIGHTNESS}}";
+        }
+
+        .textColorLightness {
+            color: "{{TEXT_COLOR_LIGHTNESS}}";
+        }
+
+        /* WARNING: Remover ".iconBgLigth" do css quando o tipo de template for "validação de email", para que os ícones do footer fiquem com a cor primária. */
+        .iconBgLigth {
+            background-color: "{{ICON_BG_COLOR_LIGTH}}";
+        }
+
+        /* ------- SPACING AND OTHERS ------- */
+
+        .display-block {
+            display: block;
+        }
+
+        .mt16 {
+            margin-top: 16px;
+        }
+
+        .mt40 {
+            margin-top: 40px;
+        }
+
+        .mb24 {
+            margin-bottom: 24px;
+        }
+
+        .mb40 {
+            margin-bottom: 40px;
+        }
+
+        .p40 {
+            padding: 40px;
+        }
+
+        .pt32 {
+            padding-top: 32px;
+        }
+
+        .pb80 {
+            padding-bottom: 80px;
+        }
+
+        .fs12 {
+            font-size: 12px;
+            line-height: 14px;
+            letter-spacing: 0px;
+        }
+
+        .fs14 {
+            font-size: 14px;
+            line-height: 22px;
+            letter-spacing: 0px;
+        }
+
+        .fs25 {
+            font-size: 25px;
+            line-height: 35px;
+            font-weight: 300;
+        }
+
+        .fs40 {
+            font-size: 40px;
+            line-height: 47px;
+            letter-spacing: 4px;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        /* -------------- STYLES -------------- */
+
+        .table {
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+
+        .table > tbody {
+            display: block;
+        }
+
+        .header > td {
+            height: 40px;
+        }
+
+        #logo {
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .actionLink {
+            display: inline-block;
+            padding: 16px 24px;
+            color: #fff !important;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            font-weight: 500;
+        }
+
+        .actionLink:hover {
+            opacity: 0.8;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-top: 1px solid #e6eaf6;
+        }
+
+        .contacts {
+            flex: 2;
+            position: relative;
+        }
+
+        .footer > .contacts p {
+            min-width: 125px;
+            margin: 0 -4px;
+        }
+
+        .footer > .contacts a {
+            margin: 0 4px;
+            opacity: 0.9;
+            text-decoration: none;
+            margin-bottom: 16px;
+        }
+
+        .footer > .contacts a:hover {
+            opacity: 1;
+        }
+
+        .infos-support a {
+            text-decoration: none;
+        }
+
+        .infos-support a:hover {
+            opacity: 0.8;
+        }
+
+        .socialNetwork {
+            text-align: right;
+            margin-left: auto;
+        }
+
+        .icon {
+            display: inline-block;
+            position: relative;
+            width: 24px;
+            height: 24px;
+            margin: 4px;
+            border-radius: 50%;
+            color: transparent;
+            transition: background-color 0.3s;
+        }
+
+        .icon:hover {
+            opacity: 0.8;
+        }
+
+        .icon > img {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 12px;
+            height: 12px;
+            object-fit: cover;
+            margin-top: 25%;
+            margin-right: 25%;
+        }
+
+        .socialNetwork > a:hover .svg-fill {
+            opacity: 0.8;
+        }
+
+        .copyright {
+            position: absolute;
+        }
+
+        .dot {
+            display: none;
+        }
+
+        /* -------------- MEDIA QUERIES -------------- */
+
+        @media (min-width: 700px) {
+            .contacts,
+            .socialNetwork {
+                flex: auto;
+            }
+
+            .footer > .contacts > p {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .footer {
+                align-items: center;
+            }
+
+            .footer > .contacts > p > a {
+                margin-bottom: 0;
+            }
+
+            .dot {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body class="p40 pb80">
+<table
+        class="table"
+        width="100%"
+        align="center"
+        style="max-width: 600px; border-spacing: 0; border-collapse: collapse"
+>
+    <!-- -------------- HEADER -------------- -->
+
+    <tr class="header">
+        <td class="display-block pb80">
+            <a href="/" target="_blank">
+                <img
+                        id="logo"
+                        src="{{LOGO}}"
+                        height="40px"
+                />
+            </a>
+        </td>
+    </tr>
+
+    <!-- -------------- BODY -------------- -->
+
+    <tr>
+        <td class="display-block pb80">
+            <h1 class="mb40 fs25 textColorBase hiUser">{{GREETING}}, {{NAME}}</h1>
+
+            {{CONTENT}}
+        </td>
+    </tr>
+    <!-- -------------- FOOTER -------------- -->
+
+    <tr class="pt32 footer">
+        <!-- ----------- FOOTER -> CONTACTS ----------- -->
+
+        <td class="display-block fs12 contacts">
+            <p class="textColorLigth">
+                <a href="{{URL_CONTACT_US}}" class="display-block textColorLigth">{{CONTACT_US}}</a
+                ><span class="dot">•</span>
+                <a href="{{URL_TERMS_OF_USE}}" class="display-block textColorLigth">{{TERMS_OF_USE}}</a
+                ><span class="dot">•</span>
+                <a href="{{URL_PRIVACY_POLICY}}" class="display-block textColorLigth"
+                >{{PRIVACY_POLICY}}</a
+                >
+            </p>
+            <span class="fs12 mt16 display-block textColorLightness copyright"
+            >{{COPYRIGHT}}</span
+            >
+        </td>
+
+        <!-- ----------- FOOTER -> SOCIAL NETWORK ----------- -->
+
+        <td class="display-block socialNetwork">
+            <a
+                    href="{{INSTAGRAM_URL}}"
+                    target="_blank"
+                    class="icon bgColorPrimary {{ICON_BG_LIGTH}}"
+            >
+                <img src="{{INSTAGRAM_ICON}}"/>
+            </a>
+            <a
+                    href="{{FACEBOOK_URL}}"
+                    target="_blank"
+                    class="icon bgColorPrimary {{ICON_BG_LIGTH}}"
+            >
+                <img src="{{FACEBOOK_ICON}}"/>
+            </a>
+            <a
+                    href="{{TWITTER_URL}}"
+                    target="_blank"
+                    class="icon bgColorPrimary {{ICON_BG_LIGTH}}"
+            >
+                <img src="{{TWITTER_ICON}}"/>
+            </a>
+            <a
+                    href="{{YOUTUBE_URL}}"
+                    target="_blank"
+                    class="icon bgColorPrimary {{ICON_BG_LIGTH}}"
+            >
+                <img src="{{YOUTUBE_ICON}}"/>
+            </a>
+        </td>
+    </tr>
+</table>
 </body>
 </html>
