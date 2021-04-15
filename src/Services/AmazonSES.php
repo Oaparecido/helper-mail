@@ -165,19 +165,19 @@ class AmazonSES
             throw new Exception($exception->getMessage(), $exception->getCode());
         }
 
-        $this->translatedFields($layout, $emailType);
+        $this->translatedFields($layout, $emailType, $untranslatable);
 
-        var_dump($this->templateHtml);
-        die();
     }
 
     /**
      * @param string $layout
      * @param string $emailType
+     * @param array $untranslatable
      */
-    private function translatedFields(string $layout, string $emailType)
+    private function translatedFields(string $layout, string $emailType, array $untranslatable)
     {
         $this->replaceLayout($layout);
+        $this->setSubject($emailType, $untranslatable);
 
         foreach ($this->translatable as $key => $value) {
             if (is_array($value)) {
@@ -188,9 +188,16 @@ class AmazonSES
                 $field = $value;
             }
 
-            $textTranslated = $this->translator->trans($this->translateKey . '.' . $emailType . '.' . $field, $attributes);
+            $text_translated = $this->translator->trans($this->translateKey . '.' . $emailType . '.' . $field, $attributes);
 
-            $this->templateHtml = str_replace('{{' . strtoupper($field) . '}}', $textTranslated, $this->templateHtml);
+            $this->templateHtml = str_replace('{{' . strtoupper($field) . '}}', $text_translated, $this->templateHtml);
+        }
+
+        if (isset($untranslatable) && !empty($untranslatable)) {
+            $untranslatable['icon_bg_ligth'] = (isset($untranslatable['icon_bg_ligth'])) ? $untranslatable['icon_bg_ligth'] : 'iconBgLigth';
+
+            foreach ($untranslatable as $key => $value)
+                $this->templateHtml = str_replace('{{' . strtoupper($key) . '}}', $value, $this->templateHtml);
         }
     }
 
