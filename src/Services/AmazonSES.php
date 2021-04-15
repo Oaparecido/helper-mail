@@ -153,17 +153,11 @@ class AmazonSES
 
     /**
      * @param string $emailType
-     * @return string
+     * @param array $untranslatable
      * @throws Exception
      */
-    private function getEmail(string $emailType): string
+    private function setTemplate(string $emailType, array $untranslatable)
     {
-        /**
-         * [X] -> get email for replace fields
-         * [X] -> replace fields in file HTML
-         * [] -> returns a changed file string
-         */
-
         try {
             $layout = file_get_contents($this->resource_path . 'Templates/layout.html');
             $this->templateHtml = file_get_contents($this->resource_path . 'Templates/' . ucfirst($this->templateFile) . '/' . $emailType . '.html');
