@@ -4,20 +4,92 @@
 namespace HelperMail\Services;
 
 use Exception;
-use Illuminate\Support\Facades\Cache;
+use PHPMailer\PHPMailer\PHPMailer;
 use Symfony\Component\Translation\Loader\ArrayLoader;
 use Symfony\Component\Translation\Translator;
-use function Couchbase\defaultDecoder;
 
 class AmazonSES
 {
+    /**
+     * Set locale to translation e-mail
+     * @var string
+     */
     protected string $locale = 'pt-br';
-    protected string $resource_path = __DIR__ . '/../Resources/';
-    protected string $templateHtml = __DIR__ . '/../Resources/';
-    protected array $translatable = [];
-    protected array $layoutTranslatable = ['see_on_browser', 'contact_us', 'terms_of_use', 'privacy_policy',];
+
+    /**
+     * Template HTML to sender e-mail | This var is changed according to the mailing class
+     * @var string
+     */
+    protected string $templateHtml = '';
+
+    /**
+     * String to search file from the translation
+     * @var string
+     */
     protected string $templateFile = '';
+
+    /**
+     * Key to translate the template, search in file mail.php into translations path
+     * @var string
+     */
     protected string $translateKey = '';
+
+    /**
+     * Fields translatable from layout HTML
+     * @var array|string[]
+     */
+    protected array $layoutTranslatable = ['see_on_browser', 'contact_us', 'terms_of_use', 'privacy_policy',];
+
+    /**
+     * Fields into mailing class, that is translatable into file HTML
+     * @var array
+     */
+    protected array $translatable = [];
+
+    /**
+     * Fields that into origins translatable
+     * @var array
+     */
+    protected array  $mailerSettings = [];
+
+    /**
+     * Path to resources
+     * @var string
+     */
+    private string   $resource_path = __DIR__ . '/../Resources/';
+
+    /**
+     * Name default from sender
+     * @var string
+     */
+    private string   $fromName = 'Transform Robot';
+
+    /**
+     * e-mail default to sender
+     * @var string
+     */
+    private string   $senderDefault = 'no-replay@transform.click';
+
+    /**
+     * e-mail subject
+     * @var string
+     */
+    private string   $subject = '';
+
+    /**
+     * @var array
+     */
+    private array    $filesToUnlink = [];
+
+    /**
+     * @var bool
+     */
+    private bool     $isUnlink = false;
+
+    /**
+     * Variable to translate files
+     * @var Translator
+     */
     protected Translator $translator;
 
     /**
