@@ -98,20 +98,44 @@ class AmazonSES
      * @param string $toName
      * @param string $emailType
      * @param array $untranslatable
-     * @return string
+     * @param array $attachments
+     * @return array
+     * @throws \PHPMailer\PHPMailer\Exception
      * @throws Exception
      */
-    public function dispatcher(string $toEmail, string $toName, string $emailType, array $untranslatable): string
+    public function dispatcher(string $toEmail, string $toName, string $emailType, array $untranslatable, $attachments = []): array
     {
-        $this->setTranslation();
-
-        $email = $this->getEmail($emailType);
-
-        /** Todo (Daniel) => add set properties by array from origins;
+        /**
+         * Todo (Daniel) => add set properties by array from origins;
          * $this->setProperties(array $properties);
          */
+        $this->setTranslation();
 
-        return $this->translator->trans('test.first');
+        $this->setTemplate($emailType, $untranslatable);
+
+        /**
+         * Todo (Daniel) => add fromName by origins
+         */
+        $mail = new PHPMailer();
+        $mail->isSMTP();
+        $mail->Host = 'smtp.mailtrap.io';
+        $mail->SMTPAuth = true;
+        $mail->Port = 2525;
+        $mail->Username = '8b9256a7d74c85';
+        $mail->Password = '986bf3e32695cd';
+        $mail->setFrom($this->senderDefault, $this->fromName);
+        $mail->addReplyTo($this->senderDefault, $this->fromName);
+        $mail->addAddress('daniel.aparecido@maquinadobem.com', 'Daniel Aparecido');
+        $mail->Subject = $this->subject;
+        $mail->CharSet = 'UTF-8';
+        $mail->msgHTML($this->templateHtml);
+
+        if (!$mail->send())
+            return ['status' => false, 'error' => $mail->ErrorInfo];
+
+        //$this->setAttachments($attachments, $mail);
+
+        return ['status' => true, 'message' => 'e-mail enviado com sucesso'];
     }
 
     /**
