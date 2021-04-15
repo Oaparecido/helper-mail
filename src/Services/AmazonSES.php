@@ -226,6 +226,65 @@ class AmazonSES
             else
                 $this->templateHtml = str_replace('{{' . strtoupper($field) . '}}', $this->translator->trans('layout.' . $field), $this->templateHtml);
         }
-
     }
+
+    /**
+     * @param string $emailType
+     * @param array $untranslatable
+     */
+    private function setSubject(string $emailType, array $untranslatable)
+    {
+        if (isset($untranslatable['name']))
+            $this->subject = $this->translator->trans($this->translateKey . '.' . $emailType . '.subject', ['name' => $untranslatable['name']]);
+        else
+            $this->subject = $this->translator->trans($this->translateKey . '.' . $emailType. '.subject');
+    }
+
+//    private function setAttachments(array $attachments, PHPMailer $mail): void
+//    {
+//        if (isset($attachments) && !empty($attachments)) {
+//            foreach ($attachments as $attachment) {
+//                $fileName = basename($attachment);
+//                if (substr($attachment, 0, 4) === 'http') {
+//                    $this->isUnlink = true;
+//                    $attachment = $this->tempLoadFile($attachment, $fileName);
+//                    $this->filesToUnlink[] = $attachment;
+//                }
+//                $mail->addAttachment($attachment, $fileName);
+//            }
+//        }
+//    }
+//
+//    private static function getObj()
+//    {
+//        return $SesClient = new SesClient([
+//            'profile' => 'default',
+//            'version' => '2010-12-01',
+//            'region' => env('AWS_SES_REGION', 'us-east-1')
+//        ]);
+//    }
+//    private function setSocialNetworks()
+//    {
+//        if (isset($this->mailerSettings['social_networks']) && !empty($this->mailerSettings['social_networks']))
+//            foreach ($this->mailerSettings['social_networks'] as $social_network) {
+//                $this->templateHtml = str_replace('{{' . strtoupper($social_network['network']) . '_URL}}', $social_network['url'], $this->templateHtml);
+//                $this->templateHtml = str_replace('{{' . strtoupper($social_network['network']) . '_ICON}}', $social_network['icon'], $this->templateHtml);
+//            }
+//    }
+//
+//    private function setSettingsLayout()
+//    {
+//        if (isset($this->mailerSettings['title'], $this->mailerSettings['logo']) && !empty($this->mailerSettings['title']) && !empty($this->mailerSettings['logo']))
+//            foreach ($this->mailerSettings as $field => $value)
+//                if (gettype($value) === 'string')
+//                    $this->templateHtml = str_replace('{{' . strtoupper($field) . '}}', $value, $this->templateHtml);
+//    }
+//
+//    private function setColors()
+//    {
+//        if (isset($this->mailerSettings['colors']) && !empty($this->mailerSettings['colors']))
+//            foreach ($this->mailerSettings['colors'] as $field => $value) {
+//                $this->templateHtml = str_replace('"{{' . strtoupper($field) . '}}"', $value, $this->templateHtml);
+//            }
+//    }
 }
