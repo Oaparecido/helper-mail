@@ -5,11 +5,18 @@ namespace HelperMail\Services\Mailer;
 
 
 use HelperMail\Services\AmazonSES;
+use PHPMailer\PHPMailer\Exception;
 
 class ActionsMailing extends AmazonSES
 {
     protected string $templateFile = 'actions';
     protected string $translateKey = 'actions-mailing';
+    protected array  $mailerSettings = [];
+
+    public function __construct(array $origins)
+    {
+        $this->mailerSettings = $origins;
+    }
 
     /**
      * Function to send e-mail for actions approved by administrator
@@ -17,10 +24,10 @@ class ActionsMailing extends AmazonSES
      * @param $toEmail
      * @param $link
      * @param $action_title
-     * @param $entity
-     * @return string
+     * @return array
+     * @throws Exception
      */
-    public function actionApproved($toName, $toEmail, $link, $action_title)
+    public function actionApproved($toName, $toEmail, $link, $action_title): array
     {
         $untranslatable = ['name' => $toName, 'link' => $link];
         $this->translatable  = [
